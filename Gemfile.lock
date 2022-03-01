@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rescue_like_a_pro (1.0.0)
+    rescue_like_a_pro (1.0.1)
       activejob (>= 6.1)
 
 GEM

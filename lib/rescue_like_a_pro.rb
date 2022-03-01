@@ -1,3 +1,6 @@
+module RescueLikeAPro
+end
+
 %w(active_job version).each do |f|
   require "rescue_like_a_pro/#{f}"
 end
