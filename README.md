@@ -75,17 +75,20 @@ class SomeJob < ApplicationJob
 end
 
 class ApplicationJob
-  # All of these work on individual job classes as well. Job class definitions take precedence over parent classes like here.
+  # All of these work on individual job classes as well. Job class definitions
+  # take precedence over parent classes like here.
 
   self.retry_jitter = 0.15      # Rails default: add 0-15% extra
   self.retry_jitter = 7.seconds # Add 0-7 seconds extra
 
   on_discard do |job, error|
-    # Add a default handler when a job is discarded. Only used when discard_on did not define a handler.
+    # Add a default handler when a job is discarded. Only used when discard_on
+    # did not define a handler.
   end
 
   on_retries_exhausted do |job, error|
-    # Add a default handler when retries are exhausted. Only used when retry_on did not define a handler.
+    # Add a default handler when retries are exhausted. Only used when retry_on
+    # did not define a handler.
   end
 end
 ```

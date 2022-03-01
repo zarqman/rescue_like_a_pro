@@ -163,7 +163,7 @@ PLATFORMS
 
 DEPENDENCIES
   minitest-reporters
-  rails (>= 7.0.0)
+  rails (>= 6.1.0)
   rake
   rescue_like_a_pro!
   sqlite3
