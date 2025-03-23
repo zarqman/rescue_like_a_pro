@@ -86,7 +86,7 @@ module RescueLikeAPro::ActiveJob
 
   def determine_delay(seconds_or_duration_or_algorithm:, executions:, jitter: nil)
     case seconds_or_duration_or_algorithm
-    when :exponentially_longer
+    when :exponentially_longer, :polynomially_longer
       delay = executions**4
       delay_jitter = determine_jitter_for_delay(delay, jitter)
       delay + delay_jitter + 2
