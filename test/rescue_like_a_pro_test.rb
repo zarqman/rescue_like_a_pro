@@ -26,10 +26,18 @@ class RescueLikeAProTest < ActiveJob::TestCase
     BaseJob.retries_exhausted_handler = nil
     [DiscardableJob, RetryableJob].each do |klass|
       %i(rescue_pro_rules discard_handler retries_exhausted_handler).each do |meth|
-        klass.singleton_class.remove_method meth
+        if Rails.version < '8.0'
+          klass.singleton_class.remove_method meth
+        else
+          klass.singleton_class.remove_method :"__class_attr_#{meth}"
+          klass.singleton_class.remove_method :"__class_attr_#{meth}="
+        end
       rescue NameError
       end
     end
+    assert_no_rules BaseJob
+    assert_no_rules DiscardableJob
+    assert_no_rules RetryableJob
   end
 
   test "use more specific exception on parent over less specific on jobclass" do
@@ -188,6 +196,14 @@ class RescueLikeAProTest < ActiveJob::TestCase
     RetryableJob.retries_exhausted_handler = ->{ action = :retry_jobclass }
     refute_equal :okay, RetryableJob.perform_now
     assert_equal :retry, action
+  end
+
+
+
+  def assert_no_rules(klass)
+    assert_equal Hash.new, klass.rescue_pro_rules
+    assert_nil   klass.discard_handler
+    assert_nil   klass.retries_exhausted_handler
   end
 
 end

@@ -1,3 +1,7 @@
+#### 1.2.0
+
+- Compatibility with Rails 8.0
+
 #### 1.1.0
 
 - Compatibility with Rails 7.2
