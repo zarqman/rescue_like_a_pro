@@ -10,9 +10,11 @@ Gem::Specification.new do |spec|
   spec.description = "RescueLikeAPro rethinks ActiveJob's exception handling system to improve usage with class inheritance and mixins, add fallback retries exhausted and discard handlers, and improve jitter flexibility."
   spec.license     = "MIT"
 
-  spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = spec.homepage
-  spec.metadata["changelog_uri"] = "https://github.com/zarqman/rescue_like_a_pro/blob/master/CHANGELOG.md"
+  spec.metadata = {
+    'homepage_uri' => spec.homepage,
+    'source_code_uri' => spec.homepage,
+    'changelog_uri' => 'https://github.com/zarqman/rescue_like_a_pro/blob/master/CHANGELOG.md'
+  }
 
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     Dir["{app,config,db,lib}/**/*", "LICENSE.txt", "Rakefile", "README.md"]

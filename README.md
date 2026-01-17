@@ -23,8 +23,7 @@ RescueLikeAPro rethinks ActiveJob's exception handling system by:
 
   With ActiveJob's default exception handling, `DeserializationError`s will never be discarded by `SomeJob` because exceptions are processed from last to first. Since `DeserializationError` is a type of `StandardError`, `retry_on` will see it, reattempt 5 times, then trigger retries-exhausted--which in this case, without a block on `retry_on`, will bubble the error upward.
 
-  In contrast, RescueLikeAPro will recognize that `DeserializationError` is a more specific type of `StandardError` and will discard it immediately, while still retrying all other types of
-  `StandardError`s.
+  In contrast, RescueLikeAPro will recognize that `DeserializationError` is a subclass of `StandardError` and will discard it immediately, while still retrying all other types of `StandardError`s.
 
   Child classes may, of course, still redefine handling for an exception previously defined in a parent.
 
@@ -57,6 +56,12 @@ RescueLikeAPro rethinks ActiveJob's exception handling system by:
   ```
 
 * Jitter is applied to all retries. In contrast, ActiveJob skips jitter when `:wait` is a Proc.
+
+* ActionMailer::MailDeliveryJob is extended to allow for exception handlers, including retries, to be added to the job.
+
+  `ActionMailer::MailDeliveryJob` is the internal job used to deliver emails later with `SomeMailer.message.deliver_later`. By default, it only runs each Mailer's rescue_from handlers, bypassing any exception handlers (including retries) added to the job.
+
+  RescueLikeAPro changes this. Upon an exception, any rescue_from handlers on the Mailer will run first (using normal rescue_from rules). If no handler is found, or if the handler raises (or reraises) an exception, then the exception will be sent to the job's handlers.
 
 
 ### Example syntax
@@ -106,11 +111,23 @@ class ActiveJob::Base
   # on_discard{ ... }
   # on_retries_exhausted{ ... }
   # etc
+end
 ```
 
 Otherwise, to just modify all of your app's jobs, add instructions to `app/jobs/application_job.rb`.
 
 And of course, add any per-Job instructions directly to that job class.
+
+
+### ActionMailer::MailDeliveryJob
+
+MailDeliveryJob may warrant special attention. To make delayed mail deliveries retryable, add `retry_on` to either ActiveJob::Base or MailDeliveryJob.
+
+For example, again in an initializer:
+
+```ruby
+ActionMailer::MailDeliveryJob.retry_on IOError, SystemCallError, Timeout::Error, wait: 1.minute, attempts: 5
+```
 
 
 ## Installation

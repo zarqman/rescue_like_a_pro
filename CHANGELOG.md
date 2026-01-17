@@ -1,3 +1,7 @@
+#### 1.3.0
+
+- Enable RescueLikeAPro for ActionMailer::MailDeliveryJob
+
 #### 1.2.0
 
 - Compatibility with Rails 8.0

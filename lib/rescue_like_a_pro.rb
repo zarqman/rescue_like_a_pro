@@ -1,7 +1,7 @@
 module RescueLikeAPro
 end
 
-%w(active_job version).each do |f|
+%w(active_job mail_delivery_job version).each do |f|
   require "rescue_like_a_pro/#{f}"
 end
 

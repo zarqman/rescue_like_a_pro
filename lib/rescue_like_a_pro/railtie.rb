@@ -5,5 +5,9 @@ module RescueLikeAPro
       prepend RescueLikeAPro::ActiveJob
     end
 
+    configure do
+      ActionMailer::MailDeliveryJob.prepend RescueLikeAPro::MailDeliveryJob
+    end
+
   end
 end
