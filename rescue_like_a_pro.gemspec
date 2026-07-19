@@ -21,8 +21,4 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency "activejob", ">= 6.1"
-
-  spec.add_development_dependency "rails", ">= 6.1.0"
-  spec.add_development_dependency "minitest-reporters"
-  spec.add_development_dependency "rake"
 end

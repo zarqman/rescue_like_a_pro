@@ -3,7 +3,8 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in rescue_like_a_pro.gemspec.
 gemspec
 
-gem "minitest", "~> 5"
+gem "minitest-reporters"
+gem "rails", ">= 6.1.0"
 gem "sqlite3"
 
 # Start debugger with binding.b [https://github.com/ruby/debug]
